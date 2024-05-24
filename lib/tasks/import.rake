@@ -30,11 +30,13 @@ namespace :import do
     # import reviews data
     CSV.foreach(Rails.root.join('lib/csvs/','reviews.csv'), headers: true) do |row|
       @movie = Movie.find_by(movie: row["Movie"])
-      r = @movie.reviews.new
-      r.user = row["User"]
-      r.stars = row["Stars"]
-      r.review = row["Review"]
-      r.save!
+      if @movie
+        @movie.reviews << Review.find_or_create_by(
+          user: row["User"],
+          stars:  row["Stars"],
+          review:  row["Review"]
+        )
+      end
     end
     puts "There are now #{Review.count} rows in the Reviews table"
   end
