@@ -8,6 +8,8 @@ class Movie < ApplicationRecord
   has_many :reviews, dependent: :destroy
 
   def avg_stars
-    self.reviews.pluck(:stars).sum / self.reviews.count # (sum of all stars / total num of reviews)
+    unless self.reviews.empty?
+      self.reviews.pluck(:stars).sum / self.reviews.count # (sum of all stars / total num of reviews)
+    end
   end
 end

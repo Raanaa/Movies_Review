@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_24_063722) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_28_212914) do
   create_table "actors", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -68,7 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_24_063722) do
 
   add_foreign_key "actors_movies", "actors"
   add_foreign_key "actors_movies", "movies"
-  add_foreign_key "locations_movies", "actors", column: "location_id"
+  add_foreign_key "locations_movies", "locations"
   add_foreign_key "locations_movies", "movies"
   add_foreign_key "reviews", "movies"
 end

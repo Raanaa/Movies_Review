@@ -18,14 +18,18 @@ namespace :import do
         m.locations << Location.find_or_create_by(name: row["Filming location"]) 
       else
         begin
-            @movie.actors << Actor.find_or_create_by(name: row["Actor"])
-            @movie.locations << Location.find_or_create_by(name: row["Filming location"]) 
+            actor = Actor.find_or_create_by(name: row["Actor"])
+            @movie.actors << actor unless @movie.actors.include?(actor)
+
+            location = Location.find_or_create_by(name: row["Filming location"])
+            @movie.locations << location unless @movie.locations.include?(location)
+
         rescue
             puts "duplicate record will be ignored"
         end
       end
     end
-    puts "There are now #{Movie.count} rows in the Movies table and #{Actor.count} rows in the Actors table"
+    puts "There are now #{Movie.count} rows in the Movies table , #{Actor.count} rows in the Actors table and #{Location.count} rows in the Locations table"
 
     # import reviews data
     CSV.foreach(Rails.root.join('lib/csvs/','reviews.csv'), headers: true) do |row|
